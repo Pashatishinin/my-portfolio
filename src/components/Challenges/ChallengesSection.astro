@@ -1,0 +1,76 @@
+---
+import { gsap } from "gsap";
+import SplitType from "split-type";
+import ChallengePatish from "./ChallengePatish.astro";
+---
+
+<section
+  id="challenge"
+  class="challenge min-h-full pb-10 bg-neutral-900 text-neutral-50 overflow-hidden"
+>
+  <div class="p-5 md:p-10">
+    <div class="overflow-hidden w-[95%] md:w-2/3 h-24 md:h-32">
+      <h3
+        class="challenge_title text-2xl md:text-5xl font-bold leading-[125%] mt-36"
+      >
+        To improve my skills I try to create for myself challenges
+      </h3>
+    </div>
+    <div class="mt-10 md:mt-40 overflow-hidden h-20 md:h-12">
+      <h2
+        class="mt-20 text-3xl font-black font-josefin text-transparent bg-clip-text bg-gradient-to-t from-rose-800 via-rose-500 to-yellow-400 uppercase
+      sm:text-5xl
+      md:text-6xl"
+      >
+        PATISH TEXT EFFECT
+      </h2>
+    </div>
+    <div class="overflow-hidden h-20 md:h-10 mt-5 ml-1">
+      <h5 class="font-medium text-lg md:text-2xl uppercase mt-20">
+        Here I created many different text effect for PATISH
+      </h5>
+    </div>
+  </div>
+  <ChallengePatish />
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import SplitType from "split-type";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // Настройка IntersectionObserver для отслеживания появления секции футера
+    const title_text = new SplitType(".challenge_title");
+    const challengeSection = document.querySelector("#challenge");
+
+    const observer = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Запуск анимации, когда секция появляется в зоне видимости
+            gsap.to(title_text.chars, {
+              y: -150,
+              duration: 1,
+              stagger: 0.02,
+              delay: 0.5,
+            });
+            gsap.to(".challenge h2,.challenge h5 ", {
+              y: -80,
+              duration: 1,
+              stagger: 0.1,
+              delay: 0.5,
+            });
+
+            // Отключаем наблюдатель после срабатывания анимации
+            observer.unobserve(challengeSection);
+          }
+        });
+      },
+      {
+        threshold: 0.1, // Процент видимости элемента для срабатывания
+      }
+    );
+
+    observer.observe(challengeSection);
+  });
+</script>

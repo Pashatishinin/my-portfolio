@@ -1,0 +1,173 @@
+---
+import { gsap } from "gsap";
+import ScrollTrigger from "gsap/ScrollTrigger";
+---
+
+<div class="marquees lg:h-full">
+  <div class="marquee-container mb-[1em]" id="marquee-1">
+    <div class="marquee">
+      <div class="item">
+        <img src="/assets/patish/patish_1.png" alt="patish" />
+      </div>
+      <div class="item">
+        <img src="/assets/patish/patish_2.png" alt="" />
+      </div>
+      <div class="item">
+        <img src="/assets/patish/patish_3.png" alt="" />
+      </div>
+      <div class="item">
+        <img src="/assets/patish/patish_4.png" alt="" />
+      </div>
+    </div>
+  </div>
+
+  <div class="marquee-container mb-[1em]" id="marquee-2">
+    <div class="marquee">
+      <div class="item">
+        <img src="/assets/patish/patish_5.png" alt="" />
+      </div>
+      <div class="item">
+        <img src="/assets/patish/patish_6.png" alt="" />
+      </div>
+      <div class="item">
+        <img src="/assets/patish/patish_7.png" alt="" />
+      </div>
+      <div class="item">
+        <img src="/assets/patish/patish_8.png" alt="" />
+      </div>
+    </div>
+  </div>
+
+  <div class="marquee-container mb-[1em]" id="marquee-3">
+    <div class="marquee">
+      <div class="item">
+        <img src="/assets/patish/patish_9.png" alt="" />
+      </div>
+      <div class="item">
+        <img src="/assets/patish/patish_10.png" alt="" />
+      </div>
+      <div class="item">
+        <img src="/assets/patish/patish_11.png" alt="" />
+      </div>
+      <div class="item">
+        <img src="/assets/patish/patish_12.png" alt="" />
+      </div>
+    </div>
+  </div>
+
+  <div class="marquee-container mb-[1em]" id="marquee-4">
+    <div class="marquee">
+      <div class="item">
+        <img src="/assets/patish/patish_13.png" alt="" />
+      </div>
+      <div class="item">
+        <img src="/assets/patish/patish_14.png" alt="" />
+      </div>
+      <div class="item">
+        <img src="/assets/patish/patish_15.png" alt="" />
+      </div>
+      <div class="item">
+        <img src="/assets/patish/patish_16.png" alt="" />
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  import { gsap } from "gsap";
+  import ScrollTrigger from "gsap/ScrollTrigger";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    window.addEventListener("load", () => {
+      gsap.registerPlugin(ScrollTrigger);
+
+      const marqueeContainers = document.querySelectorAll(".marquee-container");
+
+      marqueeContainers.forEach((container, index) => {
+        let start = "0%";
+        let end = "-23%";
+
+        if (index % 2 === 0) {
+          start = "0%";
+          end = "25%";
+        }
+
+        const marquee = container.querySelector(".marquee");
+
+        gsap.fromTo(
+          marquee,
+          {
+            x: start,
+          },
+          {
+            x: end,
+            scrollTrigger: {
+              trigger: container,
+              start: "top 70%",
+              end: "50% 40%",
+              scrub: true,
+              // markers: true
+            },
+          }
+        );
+      });
+    });
+  });
+</script>
+<style>
+  @tailwind components;
+
+  @layer components {
+    .marquee {
+      @apply gap-1 md:gap-[1em];
+    }
+    .marquee-container {
+      @apply h-[6em] sm:h-[10em] md:h-[13em] lg:h-[15em] xl:h-[24em];
+    }
+    #marquee-1 .marquee,
+    #marquee-3 .marquee {
+      @apply left-[-27%];
+    }
+
+    #marquee-2 .marquee,
+    #marquee-4 .marquee {
+      @apply right-[-23%];
+    }
+  }
+  .marquees img {
+    width: 100%;
+    height: 100%;
+
+    object-fit: cover;
+  }
+  .marquees {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+
+  .marquee-container {
+    position: relative;
+    width: 140%;
+    /* height: 400px; */
+    display: flex;
+    overflow: hidden;
+  }
+
+  .marquee {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 50%;
+    left: 0;
+    transform: translateY(-50%);
+    display: flex;
+  }
+
+  .item {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+</style>

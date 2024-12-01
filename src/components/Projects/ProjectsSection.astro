@@ -1,0 +1,61 @@
+---
+import ProjectItem from "./ProjectItem.astro";
+
+import { getProjects } from "../../../lib/api";
+
+const project = await getProjects()
+
+---
+<section id="project" class="project p-5
+sm:p-10 bg-neutral-900 pt-24">
+  <div class="overflow-hidden h-20">
+    <h1
+      class="mt-40 project_title text-3xl font-black font-josefin text-transparent bg-clip-text bg-gradient-to-t from-rose-800 via-rose-500 to-yellow-400 uppercase
+      sm:text-5xl
+      md:text-6xl"
+    >
+      My Projects <span class="font-light text-neutral-50">({project.length})</span>
+    </h1>
+  </div>
+  <div class="flex flex-wrap gap-5 sm:gap-8
+  sm:mt-10">
+    <ProjectItem />
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // Настройка IntersectionObserver для отслеживания появления секции футера
+
+    const projectSection = document.querySelector("#project");
+
+    const observer = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Запуск анимации, когда секция появляется в зоне видимости
+
+            const tl2 = gsap.timeline();
+
+            tl2.to(".project_title", {
+              y: "-10rem",
+              duration: 1,
+              stagger: 0.2,
+              delay: 1,
+            });
+
+            // Отключаем наблюдатель после срабатывания анимации
+            observer.unobserve(projectSection);
+          }
+        });
+      },
+      {
+        threshold: 0.1, // Процент видимости элемента для срабатывания
+      }
+    );
+
+    observer.observe(projectSection);
+  });
+</script>

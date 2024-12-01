@@ -1,0 +1,168 @@
+---
+import { gsap } from "gsap";
+import SplitType from "split-type";
+
+import { getContact } from "../../../lib/api"
+
+const contact = await getContact()
+---
+
+<section
+  id="footer"
+  class="footer px-5 py-10
+  sm:p-10 bg-neutral-900 text-neutral-50 overflow-hidden"
+>
+  <div class="flex flex-col-reverse
+  gap-10
+sm:flex-row">
+    <div class="w-screen
+  sm:w-1/2">
+      <h5 class="font-bold uppercase text-2xl">Site Map</h5>
+      <ul
+        class="footer_sitemap mt-3 flex flex-col gap-2 font-semibold tracking-widest uppercase"
+      >
+        <div class="overflow-hidden">
+          <li class="flex items-center gap-3">
+            <i class="bx bx-right-arrow-circle"></i>
+            <a href="#hero">Home</a>
+          </li>
+        </div>
+
+        <div class="overflow-hidden">
+          <li class="flex items-center gap-3">
+            <i class="bx bx-right-arrow-circle"></i>
+            <a href="#project">Projects</a>
+          </li>
+        </div>
+        <div class="overflow-hidden">
+          <li class="flex items-center gap-3">
+            <i class="bx bx-right-arrow-circle"></i>
+            <a href="#about">About</a>
+          </li>
+        </div>
+        <div class="overflow-hidden">
+          <li class="flex items-center gap-3">
+            <i class="bx bx-right-arrow-circle"></i>
+            <a href="#challenge">Challenges</a>
+          </li>
+        </div>
+        <div class="overflow-hidden">
+          <li class="flex items-center gap-3">
+            <i class="bx bx-right-arrow-circle"></i>
+            <a href="#service">Service</a>
+          </li>
+        </div>
+      </ul>
+    </div>
+    <div>
+      <h5 class="font-bold uppercase text-2xl">Contact Info</h5>
+      <ul
+        class="footer_contact mt-3 flex flex-col gap-2 font-semibold tracking-widest uppercase"
+      >
+
+        {contact.map(item => ( 
+          <div class="overflow-hidden">
+          <li class="flex items-center gap-3">
+            <i class={item.icon}></i>
+            <a href={item.link}>{item.title}</a>
+          </li>
+        </div>
+        ))}
+        
+      </ul>
+    </div>
+  </div>
+  <h1
+    id="footerTitle"
+    class="footer_title text-7xl mt-10
+      sm:text-[9rem]
+      md:text-[11.8rem]
+      lg:text-[14rem] font-bold tracking-wide"
+  >
+    Footer
+  </h1>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import SplitType from "split-type";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // Настройка IntersectionObserver для отслеживания появления секции футера
+    const title_text = new SplitType(".footer_title");
+    const footerSection = document.querySelector("#footer");
+
+    const observer = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Запуск анимации, когда секция появляется в зоне видимости
+
+            gsap.from(".footer_sitemap li", {
+              y: 100,
+              duration: 1.2,
+              stagger: 0.2,
+              delay: 0.3,
+            });
+
+            gsap.from(" .footer_contact li", {
+              y: 100,
+              duration: 1.2,
+              stagger: 0.2,
+              delay: 0.3,
+            });
+
+            // Отключаем наблюдатель после срабатывания анимации
+            observer.unobserve(footerSection);
+          }
+        });
+      },
+      {
+        threshold: 0.1, // Процент видимости элемента для срабатывания
+      }
+    );
+
+    observer.observe(footerSection);
+
+    const footerTitleSection = document.querySelector("#footerTitle");
+
+    const observer2 = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Запуск анимации, когда секция появляется в зоне видимости
+            gsap.from(title_text.chars, {
+              y: 300,
+              duration: 1,
+              stagger: 0.08,
+              delay: 0.5,
+            });
+
+            // Отключаем наблюдатель после срабатывания анимации
+            observer2.unobserve(footerTitleSection);
+          }
+        });
+      },
+      {
+        threshold: 0.1, // Процент видимости элемента для срабатывания
+      }
+    );
+
+    observer2.observe(footerTitleSection);
+  });
+</script>
+
+<style>
+  @tailwind components;
+  @layer components {
+    #footer i {
+      @apply text-3xl text-transparent bg-clip-text bg-gradient-to-t from-rose-800 via-rose-500 to-yellow-400;
+    }
+    #footer a {
+      @apply duration-1000;
+    }
+    #footer li:hover a {
+      @apply text-transparent bg-clip-text bg-gradient-to-t from-rose-800 via-rose-500 to-yellow-400;
+    }
+  }
+</style>

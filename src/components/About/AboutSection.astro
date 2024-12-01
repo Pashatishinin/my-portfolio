@@ -1,0 +1,59 @@
+---
+import LanguageComponent from "./LanguageComponent.astro";
+import EducationComponent from "./EducationComponent.astro";
+import SkillsComponent from "./SkillsComponent.astro";
+---
+
+<section id="about" class="about p-5 md:p-10 min-h-screen max-w-screen bg-neutral-900">
+  <div class="overflow-hidden h-20">
+    <h2
+      class="mt-40 about_title text-3xl font-black font-josefin text-transparent bg-clip-text bg-gradient-to-t from-rose-800 via-rose-500 to-yellow-400 uppercase
+      sm:text-5xl
+      md:text-6xl"
+    >
+      About Me
+    </h2>
+  </div>
+  <div class="flex justify-between flex-wrap gap-5 xl:gap-0">
+    <SkillsComponent />
+    <EducationComponent />
+    <LanguageComponent />
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // Настройка IntersectionObserver для отслеживания появления секции футера
+
+    const aboutSection = document.querySelector(".about");
+
+    const observer = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Запуск анимации, когда секция появляется в зоне видимости
+
+            const tl2 = gsap.timeline();
+
+            tl2.to(".about_title", {
+              y: "-10rem",
+              duration: 1,
+              stagger: 0.2,
+              delay: 1,
+            });
+
+            // Отключаем наблюдатель после срабатывания анимации
+            observer.unobserve(aboutSection);
+          }
+        });
+      },
+      {
+        threshold: 0.1, // Процент видимости элемента для срабатывания
+      }
+    );
+
+    observer.observe(aboutSection);
+  });
+</script>

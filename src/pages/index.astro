@@ -1,11 +1,40 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
+import ProjectsSection from "../components/Projects/ProjectsSection.astro";
+import HeroSection from "../components/Hero/HeroSection.astro";
+import AboutSection from "../components/About/AboutSection.astro";
+import Layout from "../layouts/Layout.astro";
+import HeaderSection from "../components/Header/HeaderSection.astro";
+import ChallengesSection from "../components/Challenges/ChallengesSection.astro";
+import FooterSection from "../components/Footer/FooterSection.astro";
+import ServiceSection from "../components/Service/ServiceSection.astro";
+import WaterDropGrid from "../components/Hero/WaterDropGrid.astro";
 
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+
+
+
 ---
 
 <Layout>
-	<Welcome />
+  
+  <HeaderSection />
+  <HeroSection сlient:load />
+  <ServiceSection />
+  <ProjectsSection />
+  <AboutSection />
+
+  <ChallengesSection />
+
+  <FooterSection />
 </Layout>
+
+<style>
+  html {
+    scroll-behavior: smooth;
+  }
+  body {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+  }
+</style>

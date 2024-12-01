@@ -1,0 +1,77 @@
+---
+import { getSkills } from "../../../lib/api"
+
+const skills = await getSkills()
+---
+
+<div
+  id="skills"
+  class="about_card w-full lg:w-[48%] xl:w-[30%] p-5 md:px-10 pb-32 pt-5 md:pt-10 border-2 border-neutral-800 text-neutral-50 relative overflow-hidden"
+>
+  <h3
+    class="w-[90%] about_semititle text-4xl sm:text-6xl text-neutral-300 uppercase font-bold absolute bottom-5 duration-1000"
+  >
+    Main Skills
+  </h3>
+  <div class="mb-5 md:mb-20 text-[0.6rem] sm:text-[0.8rem]">
+    {skills.map(item => ( 
+      <div class="mb-5">
+      <h4 class="text-lg sm:text-2xl uppercase font-semibold mb-2">
+        {item.title}
+      </h4>
+
+      <ul class="text-neutral-400 flex flex-wrap gap-2">
+        {item.skills.map(e => ( 
+          <li class="border border-neutral-400 py-1 px-2">{e.name}</li>
+        ))}
+        
+      </ul>
+    </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .about_card:hover .about_semititle {
+    transform: scale(1.8) translateY(-0.1rem) translateX(-25%) rotate(90deg);
+    color: rgba(80, 80, 80, 0.2);
+  }
+</style>
+
+<script>
+  import { gsap } from "gsap";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // Настройка IntersectionObserver для отслеживания появления секции футера
+
+    const skillsSection = document.querySelector("#skills");
+
+    const observer = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            // Запуск анимации, когда секция появляется в зоне видимости
+
+            const tl2 = gsap.timeline();
+
+            tl2.from(".about li", {
+              opacity: 0,
+              scale: 0.2,
+              duration: 1,
+              stagger: 0.2,
+              delay: 1,
+            });
+
+            // Отключаем наблюдатель после срабатывания анимации
+            observer.unobserve(skillsSection);
+          }
+        });
+      },
+      {
+        threshold: 0.1, // Процент видимости элемента для срабатывания
+      }
+    );
+
+    observer.observe(skillsSection);
+  });
+</script>

@@ -1,0 +1,96 @@
+---
+import { gsap } from "gsap";
+
+
+import { urlForImage } from "../../../lib/urlForImage";
+import { getProjects } from "../../../lib/api";
+
+const project = await getProjects()
+
+
+---
+{project.map(item => ( 
+  <div class="card w-full md:w-[47%] text-white">
+  <div class="overflow-hidden">
+    <img class="duration-1000" src={urlForImage(item.cover)} alt="" />
+  </div>
+  <div class="my-6 mx-2
+  sm:mx-3
+  md:m-6">
+    <div class="flex justify-between">
+      <h3
+        class="w-4/5 md:w-2/3 text-md font-montserrat uppercase font-semibold tracking-widest
+        sm:text-xl"
+      >
+        {item.title}
+      </h3>
+      <ul class="w-1/6 md:w-1/4 flex gap-1 sm:gap-4 justify-end">
+        <li>
+          <a
+            class="text-2xl sm:text-4xl duration-700 cursor-pointer"
+            href={item.projectLink}
+            target="_blank"
+          >
+            <i class="bx bx-right-top-arrow-circle"></i>
+          </a>
+        </li>
+        {item.githubLink && (
+          <li >
+          <a
+            href={item.githubLink}
+            class="text-2xl sm:text-4xl duration-700"
+            target="_blank"
+          >
+            <i class="bx bxl-github"></i>
+          </a>
+        </li>
+        )}
+        
+      </ul>
+    </div>
+    <div class="mt-16">
+      <h4 class="uppercase text-sm font-medium tracking-widest">skills:</h4>
+      <ul class="flex flex-wrap my-8 mx-2 gap-5">
+        {
+          item.tools.map((e) => (
+            <li class="relative cursor-pointer ">
+              <svg
+                role="img"
+                viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-6 sm:w-8 fill-current text-gray-300 duration-700"
+              >
+                <path d={e.svgPath} />
+              </svg>
+              <span class="absolute opacity-0 font-bold text-sm left-[50%] translate-x-[-50%] -bottom-10 uppercase duration-700">
+                {e.name}
+              </span>
+            </li>
+          ))
+        }
+        <li></li>
+      </ul>
+    </div>
+  </div>
+</div>
+))}
+
+<style>
+  @tailwind components;
+  @layer components {
+    .card li:hover a {
+      @apply text-transparent bg-clip-text bg-gradient-to-t from-rose-800 via-rose-500 to-yellow-400;
+    }
+  }
+  .card:hover img {
+    scale: 1.1;
+  }
+
+  li:hover span {
+    opacity: 1;
+  }
+
+  li:hover svg {
+    color: #242424;
+  }
+</style>

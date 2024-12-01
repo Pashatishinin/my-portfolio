@@ -1,0 +1,36 @@
+---
+
+import { getEducation } from "../../../lib/api";
+
+const education = await getEducation()
+---
+
+
+<div
+  class="about_card w-full lg:w-[48%] xl:w-[30%] p-5 md:px-10 pb-32 pt-5 md:pt-10 border-2 border-neutral-800 text-neutral-50 relative overflow-hidden"
+>
+  <h3
+    class="w-[90%] about_semititle text-4xl sm:text-6xl text-neutral-300 uppercase font-bold absolute bottom-5 duration-1000"
+  >
+    Education
+  </h3>
+
+  {education.map(item => ( 
+    <div class="mb-5 tracking-widest">
+    <h4 class="text-lg sm:text-2xl uppercase font-semibold">
+      {item.profession}
+    </h4>
+    <h5 class="text-[0.6rem] sm:text-[0.8rem] text-neutral-400 uppercase">
+      {item.institution}
+    </h5>
+  </div>
+  ))}
+
+</div>
+
+<style>
+  .about_card:hover .about_semititle {
+    transform: scale(1.8) translateY(-0.1rem) translateX(-25%) rotate(90deg);
+    color: rgba(80, 80, 80, 0.2);
+  }
+</style>

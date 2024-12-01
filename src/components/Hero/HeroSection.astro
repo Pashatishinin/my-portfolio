@@ -1,0 +1,134 @@
+---
+import { gsap } from "gsap";
+
+import WaterDrop from "./WaterDropGrid.astro";
+
+---
+
+<section
+  id="hero"
+  class="p-3 h-screen bg-neutral-900 relative overflow-hidden
+  md:p-10"
+>
+  <div
+    class="mt-60 text-neutral-50 font-josefin text-3xl
+  sm:text-4xl
+  md:text-5xl
+  lg:text-6xl"
+  >
+    <div class="overflow-hidden">
+      <h2 class="hero_title md:mb-2 font-bold tracking-wide uppercase">
+        Hello, I'm <span class="">Pavlo</span>
+      </h2>
+    </div>
+
+    <div class="overflow-hidden text-white h-14">
+      <div class="text_wrapper hero_title md:pt-2 h-full font-bold uppercase">
+        <p>Designer</p>
+        <p>Frontend Developer</p>
+        <p>Python Developer</p>
+      </div>
+    </div>
+  </div>
+  <div class="absolute bottom-0 left-0 w-screen h-3/5
+  md:h-1/2">
+    <div class="w-full h-full">
+      <WaterDrop />
+
+    </div>
+  </div>
+</section>
+
+<script>
+  import { gsap } from "gsap";
+  import SplitType from "split-type";
+
+  document.addEventListener("DOMContentLoaded", () => {
+    // Настройка IntersectionObserver для отслеживания появления секции футера
+
+    const footerSection = document.querySelector("#hero");
+
+    const observer = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const titles = gsap.utils.toArray(".hero_title p");
+
+            // Запуск анимации, когда секция появляется в зоне видимости
+
+            const tl2 = gsap.timeline();
+            const tl3 = gsap.timeline();
+
+            tl2.from(".hero_title", {
+              y: 3000,
+              duration: 5.2,
+              stagger: 0.2,
+              delay: 1,
+            });
+
+            titles.forEach((title) => {
+              const hero_text = new SplitType(title as HTMLElement, {
+                types: "chars",
+              });
+
+              hero_text.chars.forEach((char) => {
+                char.classList.add("char"); // Добавляем класс 'char' каждому символу
+              });
+              console.log();
+              tl3
+                .from(
+                  hero_text.chars,
+                  {
+                    opacity: 0,
+                    translateY: 80,
+                    rotateX: -90,
+                    stagger: 0.02,
+                  },
+                  "<"
+                )
+                .to(
+                  hero_text.chars,
+                  {
+                    opacity: 0,
+                    translateY: -80,
+                    rotateX: 90,
+                    stagger: 0.02,
+                  },
+                  "<1.2"
+                )
+                .repeat(-1)
+                .repeatDelay(0.01);
+            });
+
+            // Отключаем наблюдатель после срабатывания анимации
+            observer.unobserve(footerSection);
+          }
+        });
+      },
+      {
+        threshold: 0.1, // Процент видимости элемента для срабатывания
+      }
+    );
+
+    observer.observe(footerSection);
+  });
+</script>
+
+<style>
+  @tailwind components;
+
+  @layer components {
+    :global(#hero .char) {
+      @apply text-transparent bg-clip-text bg-gradient-to-t from-rose-800 via-rose-500 to-yellow-400;
+      /* @apply bg-green-500 h-20; */
+    }
+  }
+  .hero_title {
+    position: relative;
+  }
+  .hero_title p {
+    text-align: left;
+    margin: 0;
+    position: absolute;
+  }
+</style>
