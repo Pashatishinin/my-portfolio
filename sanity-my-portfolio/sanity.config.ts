@@ -1,5 +1,6 @@
 import {defineConfig} from 'sanity'
 import {structureTool} from 'sanity/structure'
+// @ts-ignore
 import {visionTool} from '@sanity/vision'
 import {schemaTypes} from './schemaTypes'
 
