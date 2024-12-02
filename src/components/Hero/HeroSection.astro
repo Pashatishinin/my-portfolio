@@ -1,8 +1,6 @@
 ---
 import { gsap } from "gsap";
-
-import WaterDrop from "./WaterDropGrid.astro";
-
+import DotGrid from "./DotGrid.svelte";
 ---
 
 <section
@@ -33,8 +31,9 @@ import WaterDrop from "./WaterDropGrid.astro";
   <div class="absolute bottom-0 left-0 w-screen h-3/5
   md:h-1/2">
     <div class="w-full h-full">
-      <WaterDrop />
-
+      <div class="relative grid place-content-center px-8 py-0">
+        <DotGrid client:load />
+      </div>
     </div>
   </div>
 </section>
